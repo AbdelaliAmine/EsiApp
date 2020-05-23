@@ -40,19 +40,14 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.MyViewHolder> 
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
-
-
+        holder.time.setText(timestampToString((Long)mData.get(position).getimeStamp()));
         holder.tvTitle.setText(mData.get(position).getTitle());
         holder.tvDescription.setText(mData.get(position).getDescription());
         Glide.with(mContext).load(mData.get(position).getPicture()).into(holder.imgPost);
-        
+        holder.userName.setText(mData.get(position).getUserName());
+
         //Glide.with(mContext).load(mData.get(position).getUserPhoto()).into(holder.imgPostProfile);
     }
-
-
-    
-
-
     @Override
     public int getItemCount() {
         return mData.size();
@@ -64,6 +59,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.MyViewHolder> 
         ImageView imgPostProfile;
         TextView tvDescription;
          TextView time;
+         TextView userName;
 
         @RequiresApi(api = Build.VERSION_CODES.N)
         MyViewHolder(View itemView)
@@ -73,9 +69,11 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.MyViewHolder> 
             tvTitle = itemView.findViewById(R.id.post_subject);
             tvDescription=itemView.findViewById(R.id.post_description);
             imgPost = itemView.findViewById(R.id.post_picture);
-            imgPostProfile = itemView.findViewById(R.id.profile_picture);
+            imgPostProfile = itemView.findViewById(R.id.post_profile_picture);
             imgPost.setMaxHeight(400);
             time = itemView.findViewById(R.id.post_date);
+            userName= itemView.findViewById(R.id.person_name);
+
 
 
             itemView.setOnClickListener(new View.OnClickListener() {
@@ -103,10 +101,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.MyViewHolder> 
 
         Calendar calendar = Calendar.getInstance(Locale.ENGLISH);
         calendar.setTimeInMillis(time);
-        String date = DateFormat.format("dd-MM-yyyy",calendar).toString();
-        return date;
-
-
+        return DateFormat.format("dd MMMM yyyy à HH:mm ",calendar).toString();
     }
 
 
